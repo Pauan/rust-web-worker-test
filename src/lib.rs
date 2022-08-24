@@ -1,20 +1,6 @@
 use wasm_bindgen::prelude::*;
 
 
-#[wasm_bindgen(inline_js = "
-    export function sleep(ms) {
-        return new Promise(function (resolve) {
-            setTimeout(function () {
-                resolve();
-            }, ms);
-        });
-    }
-")]
-extern "C" {
-    async fn sleep(ms: f64);
-}
-
-
 #[wasm_bindgen(start)]
 pub async fn main_js() -> Result<(), JsValue> {
     #[cfg(debug_assertions)]
