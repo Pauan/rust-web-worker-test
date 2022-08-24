@@ -27,8 +27,12 @@ macro_rules! api {
             pub fn spawn(url: &str) -> impl Future<Output = Thread> {
                 let thread = Thread::new(url);
 
+                // This needs to be outside of the async block so that way
+                // it will run immediately instead of on the next tick
+                let wait = thread.worker.wait_loaded();
+
                 async move {
-                    thread.worker.wait_loaded().await;
+                    wait.await;
                     thread
                 }
             }
