@@ -1,0 +1,37 @@
+[package]
+name = "workers"
+version = "0.1.0"
+description = "Worker multi-threading example"
+authors = ["Pauan <pauanyu+github@pm.me>"]
+categories = ["wasm"]
+readme = "README.md"
+license = "MIT"
+edition = "2018"
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3  # 3 => fast, s/z => small
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = ["-O4"]  # O4 => fast, Oz/Os => small
+
+[lib]
+crate-type = ["cdylib"]
+
+[workspace]
+members = [
+    "src/thread1",
+    "src/thread2",
+    "src/worker",
+]
+
+[dependencies]
+console_error_panic_hook = "0.1.6"
+wasm-bindgen = "0.2.74"
+wasm-bindgen-futures = "0.4.32"
+js-sys = "0.3.59"
+log = "0.4.17"
+console_log = "0.2.0"
+thread1 = { path = "src/thread1", features = ["api"] }
+thread2 = { path = "src/thread2", features = ["api"] }
